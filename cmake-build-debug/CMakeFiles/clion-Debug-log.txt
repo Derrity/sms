@@ -1,0 +1,5 @@
+"/Users/sunbo/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/232.9921.42/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=/Users/sunbo/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/232.9921.42/CLion.app/Contents/bin/ninja/mac/ninja" -G Ninja -S /Users/sunbo/Desktop/sms -B /Users/sunbo/Desktop/sms/cmake-build-debug
+-- Found nlohmann_json: /usr/local/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake (found version "3.11.3") 
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/sunbo/Desktop/sms/cmake-build-debug
