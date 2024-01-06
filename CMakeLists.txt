@@ -9,5 +9,5 @@ add_executable(SMS_general main.cpp)
 include_directories(include)
 find_package(httplib)
 find_package(nlohmann_json)
-target_link_libraries(SMS_general httplib::httplib nlohmann_json::nlohmann_json)
+target_link_libraries(SMS_general httplib::httplib nlohmann_json::nlohmann_json pthread)
 
