@@ -5,12 +5,16 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
 #include <crow.h>
 #include <crow/middlewares/cookie_parser.h>
 
+using json = nlohmann::json;
+
 int main()
 {
-    crow::App<crow::CookieParser> app;
+    crow::SimpleApp app;
 
     std::string logo;
     logo = " ____  __  __ ____       _    __  __    _     ________  _   _ \n"
@@ -126,8 +130,18 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                for (int i = 0; i < server_number; i++) {
+                    httplib::Client cli(server_ips[i].c_str());
+                    auto result = cli.Get("/api/v1/GetStatus");
+                    std::string status = result->body;
 
+                }
             });
+
+    app.bindaddr("0.0.0.0")
+    .port(5556)
+    .multithreaded()
+    .run();
 
     return 0;
 }
