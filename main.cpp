@@ -6,7 +6,6 @@
 #include <sstream>
 #include <string>
 #include <nlohmann/json.hpp>
-#include <nlohmann/json_fwd.hpp>
 #include <crow.h>
 #include <crow/middlewares/cookie_parser.h>
 
@@ -130,14 +129,94 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                double total_success = 0;
+                double total_failed = 0;
+                double total_all = 0;
                 for (int i = 0; i < server_number; i++) {
                     httplib::Client cli(server_ips[i].c_str());
                     auto result = cli.Get("/api/v1/GetStatus");
                     std::string status = result->body;
-
+                    json j = json::parse(status);
+                    double success = j["success"];
+                    double failed = j["failed"];
+                    double all = j["all"];
+                    total_success = total_success + success;
+                    total_failed = total_failed + failed;
+                    total_all = total_all + all;
                 }
+                double percent = total_all > 0 ? ((total_success + total_failed) / total_all) * 100 : 0;
+                json req_data;
+                req_data["success"] = total_success;
+                req_data["failed"] = total_failed;
+                req_data["percent"] = percent;
+                res.write(req_data.dump());
+                res.end();
             });
-
+    //强制暂停
+    CROW_ROUTE(app, "/api/v1/stop")
+            ([&](const crow::request &req, crow::response &res) {
+                std::ifstream server("server.txt");
+                if (!server.is_open()) {
+                    res.write("You have not set server");
+                    res.end();
+                }
+                std::string server_ip;
+                std::vector<std::string> server_ips;
+                while(std::getline(server,server_ip)){
+                    server_ips.push_back(server_ip);
+                }
+                int server_number = server_ips.size();
+                for (int i = 0; i < server_number; i++) {
+                    httplib::Client cli(server_ips[i].c_str());
+                    auto result = cli.Get("/api/v1/ForceStop");
+                }
+                res.write("Success");
+                res.end();
+            });
+    //清空
+    CROW_ROUTE(app, "/api/v1/clear")
+            ([&](const crow::request &req, crow::response &res) {
+                std::ifstream server("server.txt");
+                if (!server.is_open()) {
+                    res.write("You have not set server");
+                    res.end();
+                }
+                std::string server_ip;
+                std::vector<std::string> server_ips;
+                while(std::getline(server,server_ip)){
+                    server_ips.push_back(server_ip);
+                }
+                int server_number = server_ips.size();
+                for (int i = 0; i < server_number; i++) {
+                    httplib::Client cli(server_ips[i].c_str());
+                    auto result = cli.Get("/api/v1/ClearAll");
+                }
+                res.write("Success");
+                res.end();
+            });
+    //获取结果
+    CROW_ROUTE(app, "/api/v1/result")
+            ([&](const crow::request &req, crow::response &res) {
+                std::ifstream server("server.txt");
+                if (!server.is_open()) {
+                    res.write("You have not set server");
+                    res.end();
+                }
+                std::string server_ip;
+                std::vector<std::string> server_ips;
+                while(std::getline(server,server_ip)){
+                    server_ips.push_back(server_ip);
+                }
+                int server_number = server_ips.size();
+                std::string status;
+                for (int i = 0; i < server_number; i++) {
+                    httplib::Client cli(server_ips[i].c_str());
+                    auto result = cli.Get("/api/v1/GetResult?type=success");
+                    status += result->body + "\n";
+                }
+                res.write(status);
+                res.end();
+            });
     app.bindaddr("0.0.0.0")
     .port(5556)
     .multithreaded()
