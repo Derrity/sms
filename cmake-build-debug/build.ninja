@@ -67,7 +67,7 @@ build CMakeFiles/SMS_general.dir/main.cpp.o: CXX_COMPILER__SMS_general_unscanned
 
 build SMS_general: CXX_EXECUTABLE_LINKER__SMS_general_Debug CMakeFiles/SMS_general.dir/main.cpp.o | /opt/local/lib/libbrotlicommon.dylib /opt/local/lib/libbrotlienc.dylib /opt/local/lib/libbrotlidec.dylib /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/usr/lib/libz.tbd /opt/local/libexec/openssl3/lib/libssl.dylib /opt/local/libexec/openssl3/lib/libcrypto.dylib
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk
-  LINK_LIBRARIES = -framework CoreFoundation -framework Security  /opt/local/lib/libbrotlicommon.dylib  /opt/local/lib/libbrotlienc.dylib  /opt/local/lib/libbrotlidec.dylib  /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/usr/lib/libz.tbd  /opt/local/libexec/openssl3/lib/libssl.dylib  /opt/local/libexec/openssl3/lib/libcrypto.dylib
+  LINK_LIBRARIES = -lpthread  -framework CoreFoundation -framework Security  /opt/local/lib/libbrotlicommon.dylib  /opt/local/lib/libbrotlienc.dylib  /opt/local/lib/libbrotlidec.dylib  /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/usr/lib/libz.tbd  /opt/local/libexec/openssl3/lib/libssl.dylib  /opt/local/libexec/openssl3/lib/libcrypto.dylib
   OBJECT_DIR = CMakeFiles/SMS_general.dir
   POST_BUILD = :
   PRE_LINK = :

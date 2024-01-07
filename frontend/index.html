@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后端交互页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            margin: 10px;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+<h1>后端交互页面</h1>
+<label for="figure">Figure：</label>
+<input type="number" id="figure" placeholder="Enter figure" required>
+
+<label for="number">Number：</label>
+<input type="number" id="number" placeholder="Enter number" required>
+
+<button onclick="generateNumbers()">生成号码</button>
+<button onclick="sendNumbers()">发送号码</button>
+<button onclick="checkStatus()">查看状态</button>
+<button onclick="forceStop()">强制停止</button>
+<button onclick="clearAll()">清空所有</button>
+<button onclick="getResult()">获取结果</button>
+
+<div id="result"></div>
+
+<script>
+    function generateNumbers() {
+        // 获取用户输入的值
+        const figure = document.getElementById('figure').value;
+        const number = document.getElementById('number').value;
+
+        // 构建URL，包含用户输入的参数
+        const url = `/api/v1/generate?figure=${figure}&number=${number}`;
+
+        // 发送请求
+        fetch(url)
+            .then(response => response.text())
+            .then(data => displayResult(data));
+    }
+
+    function sendNumbers() {
+        fetch('/api/v1/send')
+            .then(response => response.text())
+            .then(data => displayResult(data));
+    }
+
+    function checkStatus() {
+        fetch('/api/v1/status')
+            .then(response => response.json())
+            .then(data => displayResult(JSON.stringify(data, null, 2)));
+    }
+
+    function forceStop() {
+        fetch('/api/v1/stop')
+            .then(response => response.text())
+            .then(data => displayResult(data));
+    }
+
+    function clearAll() {
+        fetch('/api/v1/clear')
+            .then(response => response.text())
+            .then(data => displayResult(data));
+    }
+
+    function getResult() {
+        fetch('/api/v1/result')
+            .then(response => response.text())
+            .then(data => displayResult(JSON.stringify(data, null, 2)));
+    }
+
+    function displayResult(data) {
+        document.getElementById('result').innerText = data;
+    }
+</script>
+</body>
+</html>
