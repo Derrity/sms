@@ -54,14 +54,14 @@ int main()
             ([&](const crow::request &req, crow::response &res) {
                 std::string figure = req.url_params.get("figure");
                 std::string number = req.url_params.get("number");
-                int phone = std::stoi(figure);
+                long long int phone = std::stoll(figure);
                 std::ofstream write("data.txt");
                 if (!write.is_open())
                 {
                    res.write("Error opening file");
                    res.end();
                 }
-                for (int i = 0; i < std::stoi(number); i++) {
+                for (int i = 0; i < std::stoll(number); i++) {
                     write << std::to_string(phone) << std::endl;
                     phone = phone + 1;
                 }
