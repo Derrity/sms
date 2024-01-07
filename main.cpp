@@ -96,6 +96,7 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                server.close();
 
                 //分配发送手机号码
 
@@ -129,6 +130,7 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                server.close();
                 double total_success = 0;
                 double total_failed = 0;
                 double total_all = 0;
@@ -166,6 +168,7 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                server.close();
                 for (int i = 0; i < server_number; i++) {
                     httplib::Client cli(server_ips[i].c_str());
                     auto result = cli.Get("/api/v1/ForceStop");
@@ -187,6 +190,7 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                server.close();
                 for (int i = 0; i < server_number; i++) {
                     httplib::Client cli(server_ips[i].c_str());
                     auto result = cli.Get("/api/v1/ClearAll");
@@ -208,6 +212,7 @@ int main()
                     server_ips.push_back(server_ip);
                 }
                 int server_number = server_ips.size();
+                server.close();
                 std::string status;
                 for (int i = 0; i < server_number; i++) {
                     httplib::Client cli(server_ips[i].c_str());
