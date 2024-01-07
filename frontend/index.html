@@ -38,10 +38,10 @@
 <body>
 <h1>后端交互页面</h1>
 <label for="figure">Figure：</label>
-<input type="number" id="figure" placeholder="Enter figure" required>
+<input type="number" id="figure" placeholder="输入初始号码" required>
 
 <label for="number">Number：</label>
-<input type="number" id="number" placeholder="Enter number" required>
+<input type="number" id="number" placeholder="输入生成数量" required>
 
 <button onclick="generateNumbers()">生成号码</button>
 <button onclick="sendNumbers()">发送号码</button>
@@ -94,8 +94,28 @@
     function getResult() {
         fetch('/api/v1/result')
             .then(response => response.text())
-            .then(data => displayResult(JSON.stringify(data, null, 2)));
+            .then(data => saveTxtFile(data)); // 调用保存txt文件的函数
     }
+    function saveTxtFile(data) {
+        const blob = new Blob([data], { type: 'text/plain' }); // 创建Blob对象
+        const url = URL.createObjectURL(blob); // 创建Blob的URL
+
+        // 创建一个隐藏的a标签用于下载
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'result.txt'; // 指定文件名
+
+        // 将a标签添加到文档中
+        document.body.appendChild(a);
+
+        // 模拟点击a标签进行下载
+        a.click();
+
+        // 移除a标签和释放Blob的URL
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
 
     function displayResult(data) {
         document.getElementById('result').innerText = data;
