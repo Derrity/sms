@@ -78,13 +78,13 @@
             .then(response => response.json())
             .then(data => displayResult(JSON.stringify(data, null, 2)));
     }
-
+<!--
     function forceStop() {
         fetch('/api/v1/stop')
             .then(response => response.text())
             .then(data => displayResult(data));
     }
-
+-->
     function clearAll() {
         fetch('/api/v1/clear')
             .then(response => response.text())
