@@ -26,7 +26,7 @@ int main()
 //设置前端显示界面
     CROW_ROUTE(app, "/")
             ([](crow::response &res) {
-                std::ifstream file("frontend/index.html", std::ifstream::in | std::ifstream::binary);
+                std::ifstream file("../frontend/index.html", std::ifstream::in | std::ifstream::binary);
                 std::stringstream ss;
                 ss << file.rdbuf();
                 res.write(ss.str());
@@ -36,7 +36,7 @@ int main()
             });
     CROW_ROUTE(app, "/<string>")
             ([](const crow::request &req, crow::response &res, std::string filename) {
-                std::ifstream file("frontend/" + filename, std::ifstream::in | std::ifstream::binary);
+                std::ifstream file("../frontend/" + filename, std::ifstream::in | std::ifstream::binary);
                 if (!file) {
                     res.code = 404;
                     res.end();
