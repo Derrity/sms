@@ -146,7 +146,7 @@ int main()
                     total_failed = total_failed + failed;
                     total_all = total_all + all;
                 }
-                double percent = total_all > 0 ? ((total_success + total_failed) / total_all) * 100 : 0;
+                double percent = (total_success + total_failed) / total_all * 100;
                 json req_data;
                 req_data["success"] = total_success;
                 req_data["failed"] = total_failed;
