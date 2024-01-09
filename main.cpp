@@ -114,8 +114,31 @@ int main()
                     httplib::Client cli(server_ips[i].c_str());
                     //auto res = cli.Post("/api/v1/CheckAccount", data_name, "text/plain");
                     system(("curl -X POST -F \"file=@" + data_name + "\" " + server_ips[i] + "/api/v1/CheckAccount").c_str());
-                    auto res2 = cli.Get("/api/v1/Run");
                 }
+                res.write("Success");
+                res.end();
+            });
+    //执行
+    CROW_ROUTE(app, "/api/v1/run")
+            ([&](const crow::request &req, crow::response &res) {
+                std::ifstream server("server.txt");
+                if (!server.is_open()) {
+                    res.write("You have not set server");
+                    res.end();
+                }
+                std::string server_ip;
+                std::vector<std::string> server_ips;
+                while(std::getline(server,server_ip)){
+                    server_ips.push_back(server_ip);
+                }
+                int server_number = server_ips.size();
+                server.close();
+                for (int i = 0; i < server_number; i++) {
+                    httplib::Client cli(server_ips[i].c_str());
+                    auto result = cli.Get("/api/v1/Run");
+                }
+                res.write("Success");
+                res.end();
             });
     //查看状态
     CROW_ROUTE(app, "/api/v1/status")

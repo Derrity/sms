@@ -46,7 +46,10 @@
 <button onclick="generateNumbers()">生成号码</button>
 <button onclick="sendNumbers()">发送号码</button>
 <button onclick="checkStatus()">查看状态</button>
+<!--
 <button onclick="forceStop()">强制停止</button>
+-->
+<button onclick="runAll()">运行</button>
 <button onclick="clearAll()">清空所有</button>
 <button onclick="getResult()">获取结果</button>
 
@@ -85,6 +88,11 @@
             .then(data => displayResult(data));
     }
 -->
+    function runAll() {
+        fetch('/api/v1/run')
+            .then(response => response.text())
+            .then(data => displayResult(data));
+    }
     function clearAll() {
         fetch('/api/v1/clear')
             .then(response => response.text())
