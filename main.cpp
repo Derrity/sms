@@ -108,7 +108,7 @@ int main()
                         res.end();
                     }
                     for (int j = 0; j < phone_number % server_number; j++) {
-                        output_data << lines[i * phone_number % server_number + j] << std::endl;
+                        output_data << lines[i * (phone_number % server_number) + j] << "\n";
                     }
                     output_data.close();
                     httplib::Client cli(server_ips[i].c_str());
