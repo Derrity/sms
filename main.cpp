@@ -112,7 +112,8 @@ int main()
                     }
                     output_data.close();
                     httplib::Client cli(server_ips[i].c_str());
-                    auto res = cli.Post("/api/v1/CheckAccount", data_name.c_str(), "text/plain");
+                    //auto res = cli.Post("/api/v1/CheckAccount", data_name, "text/plain");
+                    system(("curl -X POST -F \"file=@" + data_name + "\" " + server_ips[i] + "/api/v1/CheckAccount").c_str());
                     auto res2 = cli.Get("/api/v1/Run");
                 }
             });
