@@ -111,11 +111,15 @@ int main()
                         output_data << lines[i * (phone_number / server_number) + j] << "\n";
                     }
                     output_data.close();
-                    httplib::Client cli(server_ips[i].c_str());
                     //auto res = cli.Post("/api/v1/CheckAccount", data_name, "text/plain");
-                    system(("curl -X POST -F \"file=@" + data_name + "\" " + server_ips[i] + "/api/v1/CheckAccount").c_str());
+                    try {
+                        system(("curl -X POST -F \"file=@" + data_name + "\" " + server_ips[i] +
+                                "/api/v1/CheckAccount").c_str());
+                    } catch (const std::exception &e) {
+                        res.write("Error to send data to " + server_ips[i]);
+                    }
                 }
-                res.write("Success");
+                res.write("Success to run command");
                 res.end();
             });
     //执行
@@ -134,10 +138,14 @@ int main()
                 int server_number = server_ips.size();
                 server.close();
                 for (int i = 0; i < server_number; i++) {
-                    httplib::Client cli(server_ips[i].c_str());
-                    auto result = cli.Get("/api/v1/Run");
+                    try {
+                        httplib::Client cli(server_ips[i].c_str());
+                        auto result = cli.Get("/api/v1/Run");
+                    } catch (const std::exception &e) {
+                        res.write("Error to run " + server_ips[i]);
+                    }
                 }
-                res.write("Success");
+                res.write("Success to run command");
                 res.end();
             });
     //查看状态
@@ -159,16 +167,20 @@ int main()
                 double total_failed = 0;
                 double total_all = 0;
                 for (int i = 0; i < server_number; i++) {
-                    httplib::Client cli(server_ips[i].c_str());
-                    auto result = cli.Get("/api/v1/GetStatus");
-                    std::string status = result->body;
-                    json j = json::parse(status);
-                    double success = j["success"];
-                    double failed = j["failed"];
-                    double all = j["all"];
-                    total_success = total_success + success;
-                    total_failed = total_failed + failed;
-                    total_all = total_all + all;
+                    try {
+                        httplib::Client cli(server_ips[i].c_str());
+                        auto result = cli.Get("/api/v1/GetStatus");
+                        std::string status = result->body;
+                        json j = json::parse(status);
+                        double success = j["success"];
+                        double failed = j["failed"];
+                        double all = j["all"];
+                        total_success = total_success + success;
+                        total_failed = total_failed + failed;
+                        total_all = total_all + all;
+                    } catch (const std::exception &e) {
+                        res.write("Error to get status from " + server_ips[i]);
+                    }
                 }
                 double percent = (total_success + total_failed) / total_all * 100;
                 json req_data;
