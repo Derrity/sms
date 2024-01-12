@@ -183,12 +183,10 @@ int main()
                     }
                 }
                 double percent = (total_success + total_failed) / total_all * 100;
-                double rate = (total_success + total_failed) / 2;
                 json req_data;
                 req_data["success"] = total_success;
                 req_data["failed"] = total_failed;
                 req_data["percent"] = percent;
-                req_data["rate"] = rate;
                 res.write(req_data.dump());
                 res.end();
             });

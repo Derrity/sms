@@ -89,7 +89,7 @@
         fetch('/api/v1/status')
             .then(response => response.json())
             .then(data => {
-                const resultText = `成功: ${data.success} 失败: ${data.failed} 完成百分比: ${data.percent}% 总平均速度: ${data.rate}个/秒`;
+                const resultText = `成功: ${data.success} 失败: ${data.failed} 完成百分比: ${data.percent}% `;
                 displayStatus(resultText);
             })
     }
