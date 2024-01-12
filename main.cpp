@@ -66,7 +66,7 @@ int main()
                     phone = phone + 1;
                 }
                 write.close();
-                res.write("Success");
+                res.write("Success to generate");
                 res.end();
             });
     //将手机号码发送到服务器
@@ -119,7 +119,7 @@ int main()
                         res.write("Error to send data to " + server_ips[i]);
                     }
                 }
-                res.write("Success to run command");
+                res.write("Success to Send");
                 res.end();
             });
     //执行
@@ -145,7 +145,7 @@ int main()
                         res.write("Error to run " + server_ips[i]);
                     }
                 }
-                res.write("Success to run command");
+                res.write("Success to run");
                 res.end();
             });
     //查看状态
