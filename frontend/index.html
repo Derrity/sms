@@ -71,12 +71,18 @@
         fetch(url)
             .then(response => response.text())
             .then(data => displayResult(data));
+        setTimeout(() => {
+            clearResult();
+        }, 2000);
     }
 
     function sendNumbers() {
         fetch('/api/v1/send')
             .then(response => response.text())
             .then(data => displayResult(data));
+        setTimeout(() => {
+            clearResult();
+        }, 2000);
     }
 
     function checkStatus() {
@@ -98,11 +104,17 @@
         fetch('/api/v1/run')
             .then(response => response.text())
             .then(data => displayResult(data));
+        setTimeout(() => {
+            clearResult();
+        }, 2000);
     }
     function clearAll() {
         fetch('/api/v1/clear')
             .then(response => response.text())
             .then(data => displayResult(data));
+        setTimeout(() => {
+            clearResult();
+        }, 2000);
     }
 
     function getResult() {
@@ -139,6 +151,9 @@
         document.getElementById('status').innerText = data;
     }
 
+    function clearResult() {
+        document.getElementById('result').innerText = '';
+    }
     document.addEventListener('DOMContentLoaded', function () {
         setInterval(checkStatus, 2000); // 5000毫秒（即5秒）为间隔时间，可以根据需要调整
     });
