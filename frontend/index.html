@@ -37,10 +37,10 @@
 </head>
 <body>
 <h1>后端交互页面</h1>
-<label for="figure">Figure：</label>
+<label for="figure">初始手机号：</label>
 <input type="number" id="figure" placeholder="输入初始号码" required>
 
-<label for="number">Number：</label>
+<label for="number">生成数量：</label>
 <input type="number" id="number" placeholder="输入生成数量" required>
 
 <button onclick="generateNumbers()">生成号码</button>
@@ -140,7 +140,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        setInterval(checkStatus, 2000); // 5000毫秒（即5秒）为间隔时间，可以根据需要调整
+        setInterval(checkStatus, 500); // 5000毫秒（即5秒）为间隔时间，可以根据需要调整
     });
 </script>
 </body>
