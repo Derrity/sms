@@ -14,7 +14,6 @@ using json = nlohmann::json;
 
 int main()
 {
-    while(true) {
         crow::SimpleApp app;
 
         std::string logo;
@@ -56,17 +55,26 @@ int main()
                 ([&](const crow::request &req, crow::response &res) {
                     std::string figure = req.url_params.get("figure");
                     std::string number = req.url_params.get("number");
-                    long long int phone = std::stoll(figure);
+                    long int phone = std::stol(figure);
                     std::ofstream write("data.txt");
                     if (!write.is_open()) {
                         res.write("Error opening file");
                         res.end();
                     }
-                    for (int i = 0; i < std::stoll(number); i++) {
-                        write << std::to_string(phone) << std::endl;
-                        phone = phone + 1;
+
+                    long int *numbers = new long int[std::stoi(number)];
+                    for (int i = 0; i < std::stoi(number); i++)
+                    {
+                        numbers[i] = phone + i;
+                        write << numbers[i] << "\n";
                     }
+
+                    //for (int i = 0; i < std::stoll(number); i++) {
+                    //    write << std::to_string(phone) << std::endl;
+                    //    phone = phone + 1;
+                    //}
                     write.close();
+                    delete []numbers;
                     res.write("Success to generate");
                     res.end();
                 });
@@ -263,8 +271,6 @@ int main()
                 .port(5588)
                 .multithreaded()
                 .run();
-        std::cout << "Program exited. Restarting in 5 seconds..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-    }
+        
     return 0;
 }

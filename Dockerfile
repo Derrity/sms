@@ -1,14 +1,13 @@
-FROM debian:latest
-
-COPY . /app
+FROM debian:11
+COPY build/server.txt /app/server.txt
+COPY frontend /app/frontend
+COPY build/SMS_general /app/SMS_general
 WORKDIR /app
 
-RUN apt update && apt upgrade -y
-RUN apt install cmake make clang gcc g++ -y
-RUN sh dependencies.sh
-RUN mkdir -p build && cd build && cmake ..
-RUN make
+RUN apt update
+RUN apt install cmake clang gcc g++ libasio-dev curl libcurl4-openssl-dev libssl-dev libboost-all-dev make aria2 git-y
+
 
 EXPOSE 5588
 
-CMD ["./build/SMS_general"]
+CMD ["./SMS_general"]
